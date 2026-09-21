@@ -79,10 +79,10 @@ const userSchema = new mongoose.Schema(
       default: false,
     },
 
-    refreshToken: {
-      type: String,
-      select: false,
-    },
+    resetPasswordToken: String,
+    resetPasswordExpiresAt: Date,
+    verificationToken: String,
+    verificationTokenExpiresAt: Date,
 
     passwordChangedAt: Date,
 
@@ -94,16 +94,14 @@ const userSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
+userSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
 
   this.password = await bcrypt.hash(this.password, 12);
 
   if (!this.isNew) {
     this.passwordChangedAt = new Date();
   }
-
-  next();
 });
 
 userSchema.methods.comparePassword = function (password) {
