@@ -4,6 +4,8 @@ import { connectDB } from "./lib/mongoDB.js";
 import { clerkMiddleware } from "@clerk/express";
 
 import userRoutes from "./routes/user.route.js";
+import exerciseRoutes from "./routes/exercise.route.js";
+import { errorHandler } from "./middlewares/error.middleware.js";
 
 config();
 
@@ -14,6 +16,9 @@ app.use(express.json());
 app.use(clerkMiddleware());
 
 app.use("/api/user", userRoutes);
+app.use("/api/exercise", exerciseRoutes);
+
+app.use(errorHandler);
 
 connectDB().then(
   app.listen(PORT, () => {
