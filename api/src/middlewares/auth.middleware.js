@@ -1,5 +1,6 @@
 import { getAuth } from "@clerk/express";
 import User from "../models/user.model.js";
+import { AppError } from "../utils/app-error.js";
 
 export const protectRoute = async (req, res, next) => {
   try {
@@ -14,12 +15,7 @@ export const protectRoute = async (req, res, next) => {
 
     const user = await User.findOne({ clerkId: userId });
 
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found",
-      });
-    }
+    if (!user) throw new AppError("User not found.", 404);
 
     req.user = user;
 

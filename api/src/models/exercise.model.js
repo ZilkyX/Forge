@@ -77,23 +77,19 @@ const exerciseSchema = new mongoose.Schema(
     commonMistakes: [String],
 
     targetMuscles: [String],
-
-    createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
   },
   { timestamps: true },
 );
 
-exerciseSchema.index({ slug: 1 });
 exerciseSchema.index({ muscleGroups: 1 });
 
-exerciseSchema.pre("validate", function (next) {
+exerciseSchema.pre("validate", function () {
   if (!this.slug && this.name) {
-    this.slug = slugify(this.name, { lower: true, strict: true });
+    this.slug = slugify(this.name, {
+      lower: true,
+      strict: true,
+    });
   }
-  next();
 });
 
 const Exercise = mongoose.model("Exercise", exerciseSchema);
