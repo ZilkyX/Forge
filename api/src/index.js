@@ -1,18 +1,19 @@
 import express from "express";
 import { config } from "dotenv";
 import { connectDB } from "./lib/mongoDB.js";
+import { clerkMiddleware } from "@clerk/express";
 
-import authRoutes from "./routes/auth.route.js";
+import userRoutes from "./routes/user.route.js";
 
-//todo: login, auth, create account
 config();
 
 const app = express();
 const PORT = process.env.PORT;
 
 app.use(express.json());
+app.use(clerkMiddleware());
 
-app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
 
 connectDB().then(
   app.listen(PORT, () => {

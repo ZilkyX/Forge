@@ -1,1 +1,30 @@
-export const protectRoutes = async (req, res, next) => {};
+import { getAuth } from "@clerk/express";
+import User from "../models/user.model.js";
+
+export const protectRoute = async (req, res, next) => {
+  try {
+    const { userId } = getAuth(req);
+
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized",
+      });
+    }
+
+    const user = await User.findOne({ clerkId: userId });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    req.user = user;
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
