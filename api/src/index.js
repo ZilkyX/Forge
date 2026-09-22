@@ -1,18 +1,27 @@
 import express from "express";
 import { config } from "dotenv";
 import { connectDB } from "./lib/mongoDB.js";
+import { clerkMiddleware } from "@clerk/express";
 
-import authRoutes from "./routes/auth.route.js";
+import userRoutes from "./routes/user.route.js";
+import exerciseRoutes from "./routes/exercise.route.js";
+import { errorHandler } from "./middlewares/error.middleware.js";
 
-//todo: login, auth, create account
 config();
 
 const app = express();
+const PORT = process.env.PORT;
 
-app.use("/api/auth", authRoutes);
+app.use(express.json());
+app.use(clerkMiddleware());
+
+app.use("/api/user", userRoutes);
+app.use("/api/exercise", exerciseRoutes);
+
+app.use(errorHandler);
 
 connectDB().then(
-  app.listen(process.env.PORT, () => {
-    console.log(`Server is running on PORT:${process.env.PORT}`);
+  app.listen(PORT, () => {
+    console.log(`Server is running on PORT:${PORT}`);
   }),
 );
