@@ -6,12 +6,7 @@ export const protectRoute = async (req, res, next) => {
   try {
     const { userId } = getAuth(req);
 
-    if (!userId) {
-      return res.status(401).json({
-        success: false,
-        message: "Unauthorized",
-      });
-    }
+    if (!userId) throw new AppError("Unauthorized", 401);
 
     const user = await User.findOne({ clerkId: userId });
 
