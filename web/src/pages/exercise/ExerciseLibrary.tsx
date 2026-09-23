@@ -1,3 +1,4 @@
+import { useExercises } from "@/hooks/exercise.hook";
 import { Search, SlidersHorizontal } from "lucide-react";
 import { useLocation } from "react-router-dom";
 
@@ -6,6 +7,19 @@ const categories = ["All", "Strength", "Cardio", "Mobility", "Stretching"];
 const ExerciseLibrary = () => {
   const { pathname } = useLocation();
   const isDashboard = pathname.startsWith("/app");
+
+  const { data, isLoading, isError } = useExercises({
+    page: 1,
+    limit: isDashboard ? 20 : 8,
+  });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Failed to load exercises.</div>;
+  }
 
   return (
     <main className="min-h-screen">
@@ -130,24 +144,28 @@ const ExerciseLibrary = () => {
               </select>
             </div>
 
-            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-              {Array.from({ length: 6 }).map((_, index) => (
+            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+              {data.exercises.map((exercise: any) => (
                 <div
-                  key={index}
-                  className="group overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900 transition hover:-translate-y-1 hover:border-emerald-500"
+                  key={exercise.slug}
+                  className="group overflow-hidden rounded-3xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-lg hover:shadow-primary/10"
                 >
-                  <div className="aspect-square bg-zinc-800" />
+                  <img
+                    src={exercise.image}
+                    alt={exercise.name}
+                    className="aspect-square w-full object-cover"
+                  />
 
                   <div className="p-5">
-                    <h3 className="font-semibold group-hover:text-emerald-400">
-                      Bench Press
+                    <h3 className="font-semibold transition-colors group-hover:text-primary">
+                      {exercise.name.toUpperCase()}
                     </h3>
 
-                    <p className="mt-1 text-sm text-zinc-400">
-                      Chest • Barbell
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {exercise.target} • {exercise.equipment}
                     </p>
 
-                    <button className="mt-4 text-sm font-medium text-emerald-400">
+                    <button className="mt-4 text-sm font-medium text-primary transition hover:underline">
                       View Exercise →
                     </button>
                   </div>

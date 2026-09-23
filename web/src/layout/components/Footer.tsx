@@ -1,6 +1,8 @@
+import { Show, SignUpButton } from "@clerk/react";
 import { Dumbbell } from "lucide-react";
 import { FaGithub, FaInstagram, FaTwitter } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+
 
 const Footer = () => {
   return (
@@ -10,7 +12,7 @@ const Footer = () => {
           {/* Brand */}
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-500 text-black">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-primary-foreground">
                 <Dumbbell size={22} />
               </div>
 
@@ -25,7 +27,7 @@ const Footer = () => {
             <div className="mt-6 flex gap-4">
               <a
                 href="#"
-                className="rounded-lg border border-zinc-800 p-2 text-zinc-400 transition hover:border-emerald-500 hover:text-emerald-400"
+                className="rounded-lg border border-zinc-800 p-2 text-zinc-400 transition hover:border-accent hover:text-primary"
                 aria-label="GitHub"
               >
                 <FaGithub size={18} />
@@ -33,7 +35,7 @@ const Footer = () => {
 
               <a
                 href="#"
-                className="rounded-lg border border-zinc-800 p-2 text-zinc-400 transition hover:border-emerald-500 hover:text-emerald-400"
+                className="rounded-lg border border-zinc-800 p-2 text-zinc-400 transition hover:border-accent hover:text-primary"
                 aria-label="Twitter"
               >
                 <FaTwitter size={18} />
@@ -41,7 +43,7 @@ const Footer = () => {
 
               <a
                 href="#"
-                className="rounded-lg border border-zinc-800 p-2 text-zinc-400 transition hover:border-emerald-500 hover:text-emerald-400"
+                className="rounded-lg border border-zinc-800 p-2 text-zinc-400 transition hover:border-accent hover:text-primary"
                 aria-label="Instagram"
               >
                 <FaInstagram size={18} />
@@ -107,20 +109,28 @@ const Footer = () => {
               Create your free account and start tracking every rep.
             </p>
 
-            <Link
-              to="/app"
-              className="mt-5 inline-flex rounded-full bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-black transition hover:bg-emerald-400"
-            >
-              Open App
-            </Link>
+            <Show when={"signed-in"}>
+              <Link
+                to="/app"
+                className="mt-5 inline-flex rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-accent"
+              >
+                Continue Your Journey
+              </Link>
+            </Show>
+
+            <Show when={"signed-out"}>
+              <SignUpButton mode="modal">
+                <button className="mt-5 inline-flex rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-black transition hover:bg-accent">
+                  Get Started
+                </button>
+              </SignUpButton>
+            </Show>
           </div>
         </div>
 
         {/* Bottom */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-zinc-800 pt-6 text-sm text-zinc-500 md:flex-row">
           <p>© {new Date().getFullYear()} Forge. All rights reserved.</p>
-
-          <p>Built with React, Clerk, and shadcn/ui.</p>
         </div>
       </div>
     </footer>
