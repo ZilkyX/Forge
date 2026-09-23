@@ -1,6 +1,7 @@
 import exercises from "../../data/exercises-dataset/data/exercises.json" with { type: "json" };
 import slugify from "slugify";
 
+const BASE_URL = process.env.API_URL || "http://localhost:5000";
 
 const exerciseData = exercises.map((exercise) => ({
   ...exercise,
@@ -10,12 +11,14 @@ const exerciseData = exercises.map((exercise) => ({
   }),
   searchText:
     `${exercise.name} ${exercise.target} ${exercise.equipment}`.toLowerCase(),
+
+  image: `${BASE_URL}/exercise-images/${exercise.image.replace("images/", "")}`,
+  gif_url: `${BASE_URL}/exercise-videos/${exercise.gif_url.replace("videos/", "")}`,
 }));
 
 const exerciseBySlug = new Map(
   exerciseData.map((exercise) => [exercise.slug, exercise]),
 );
-
 
 const categoryMap = new Map();
 const equipmentMap = new Map();
@@ -46,11 +49,9 @@ for (const exercise of exerciseData) {
   targetMap.get(exercise.target).push(exercise);
 }
 
-
 const sorters = {
   name: (a, b) => a.name.localeCompare(b.name),
 };
-
 
 export const getAllExercises = ({
   q,
@@ -127,7 +128,6 @@ export const isValidEquipment = (equipment) =>
   equipmentSet.has(equipment.toLowerCase());
 
 export const isValidTarget = (target) => targetSet.has(target.toLowerCase());
-
 
 export const getAvailableCategories = () => [...categorySet].sort();
 
