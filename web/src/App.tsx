@@ -4,6 +4,7 @@ import LandingPage from "./pages/landing/LandingPage";
 import AppLayout from "./layout/AppLayout";
 import ExerciseLibrary from "./pages/exercise/ExerciseLibrary";
 import Dashboard from "./pages/dashboard/Dashboard";
+import ExerciseDetails from "./pages/exercise/ExerciseDetails";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
       <Route element={<AppLayout />}>
         <Route path="/app" element={<Dashboard />} />
         <Route path="/app/exercises" element={<ExerciseLibrary />} />
+        <Route path="/app/exercises/:slug" element={<ExerciseDetails />} />
       </Route>
     </Routes>
   );
