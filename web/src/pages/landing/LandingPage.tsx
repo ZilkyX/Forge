@@ -1,5 +1,5 @@
 const LandingPage = () => {
-  return <div>LandingPage</div>;
+  return <div className="min-h-screen">LandingPage</div>;
 };
 
 export default LandingPage;
