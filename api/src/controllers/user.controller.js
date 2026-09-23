@@ -18,7 +18,10 @@ export const syncUser = async (req, res, next) => {
       });
     }
 
-    res.status(200).json(user);
+    return res.status(200).json({
+      success: true,
+      user,
+    });
   } catch (error) {
     next(error);
   }
@@ -26,13 +29,10 @@ export const syncUser = async (req, res, next) => {
 
 export const getMe = async (req, res, next) => {
   try {
-    const { clerkId } = req.user;
-
-    const user = await User.find({ clerkId });
-
-    if (!user) throw new AppError("User not found.", 404);
-
-    res.status(200).json(user);
+    res.status(200).json({
+      success: true,
+      user: req.user,
+    });
   } catch (error) {
     next(error);
   }
@@ -40,13 +40,23 @@ export const getMe = async (req, res, next) => {
 
 export const updateUserInfo = async (req, res, next) => {
   try {
-    const { clerkId } = req.user;
-
-    const user = await User.findOne({ clerkId });
+    const user = req.user;
 
     if (!user) throw new AppError("User not found.", 404);
 
-    Object.assign(user, req.body);
+    const allowedUpdates = [
+      "fullName",
+      "username",
+      "height",
+      "currentWeight",
+      "measurementPreference",
+    ];
+
+    allowedUpdates.forEach((field) => {
+      if (req.body[field] !== undefined) {
+        user[field] = req.body[field];
+      }
+    });
 
     await user.save();
 
@@ -58,12 +68,14 @@ export const updateUserInfo = async (req, res, next) => {
 
 export const updateUserProfileImage = async (req, res, next) => {
   try {
-    const { imgFile } = req.files;
-    const { clerkId } = req.user;
-
-    const user = await User.find({ clerkId });
+    const imgFile = req.files?.imgFile;
+    const user = req.user;
 
     if (!user) throw new AppError("User not found.", 404);
+
+    if (!imgFile) {
+      throw new AppError("Profile image is required.", 400);
+    }
 
     //todo: upload to cloudinary
   } catch (error) {
@@ -75,7 +87,7 @@ export const getPublicProfile = async (req, res, next) => {
   try {
     const { username } = req.params;
 
-    const user = await User.find({ username });
+    const user = await User.findOne({ username }).select("-clerkId").lean();
 
     if (!user) throw new AppError("User not found.", 404);
 
@@ -88,13 +100,28 @@ export const getPublicProfile = async (req, res, next) => {
 export const toggleFollow = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { clerkId } = req.user;
 
-    const user = await User.find({ clerkId });
+    const currentUser = req.user;
+    const targetUser = await User.findById(id);
 
-    if (!user) throw new AppError("User not found.", 404);
+    if (!targetUser) throw new AppError("User not found.", 404);
 
-    
+    if (currentUser._id === targetUser._id)
+      throw new AppError("You can't follow yourself.", 400);
+
+    const isFollowing = currentUser.following.includes(targetUser._id);
+
+    if (isFollowing) {
+      currentUser.following.pull(targetUser._id);
+      targetUser.followers.pull(currentUser._id);
+    } else {
+      currentUser.following.push(targetUser._id);
+      targetUser.followers.push(currentUser._id);
+    }
+
+    await Promise.all([currentUser.save(), targetUser.save()]);
+
+    return res.status(200).json({ success: true, following: !isFollowing });
   } catch (error) {
     next(error);
   }

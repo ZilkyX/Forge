@@ -1,209 +1,90 @@
-import Exercise from "../models/exercise.model.js";
+import * as ExerciseService from "../services/exercise.service.js";
 import { AppError } from "../utils/app-error.js";
-import {
-  categories,
-  muscleGroups,
-} from "../validations/exercise.validation.js";
 
-export const createExercise = async (req, res, next) => {
+const ALLOWED_SORTS = new Set(["name"]);
+
+export const getAllExercises = (req, res, next) => {
   try {
     const {
-      name,
+      q,
       category,
-      muscleGroups,
       equipment,
-      difficulty,
-      instructions,
-      commonMistakes,
-      targetMuscles,
-    } = req.body;
+      target,
+      page = "1",
+      limit = "20",
+      sort = "name",
+    } = req.query;
 
-    const existingExercise = await Exercise.findOne({ name });
-
-    if (existingExercise) throw new AppError("Exercise already exists.", 409);
-
-    let preview = {};
-
-    if (req.files?.video) {
-      const video = await uploadToCloudinary(
-        req.files.video,
-        "exercise-videos",
-      );
-
-      preview.videoUrl = video.secure_url;
-      preview.videoPublicId = video.public_id;
+    if (!ALLOWED_SORTS.has(sort)) {
+      throw new AppError("Invalid sort option.", 400);
     }
 
-    if (req.files?.thumbnail) {
-      const thumbnail = await uploadToCloudinary(
-        req.files.thumbnail,
-        "exercise-thumbnails",
-      );
-
-      preview.thumbnailUrl = thumbnail.secure_url;
-    }
-
-    const exercise = await Exercise.create({
-      name,
+    const result = ExerciseService.getAllExercises({
+      q,
       category,
-      muscleGroups,
       equipment,
-      difficulty,
-      instructions,
-      commonMistakes,
-      targetMuscles,
-      preview,
+      target,
+      page: Number(page),
+      limit: Number(limit),
+      sort,
     });
-
-    return res.status(201).json({
-      success: true,
-      message: "Exercise created successfully.",
-      exercise,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const updateExercise = async (req, res, next) => {
-  try {
-    const { id } = req.params;
-
-    const exercise = await Exercise.findById(id);
-
-    if (!exercise) throw new AppError("Exercise not found.", 404);
-
-    Object.assign(exercise, req.body);
-
-    if (req.body.name) {
-      exercise.slug = undefined;
-    }
-
-    await exercise.save();
-
-    res.status(200).json({
-      success: true,
-      exercise,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const deleteExercise = async (req, res, next) => {
-  try {
-    const { id } = req.params;
-
-    const exercise = await Exercise.findById(id);
-
-    if (!exercise) throw new AppError("Exercise not found.", 404);
-    //todo: delete to cloudinary
-
-    await Exercise.findByIdAndDelete(id);
 
     return res.status(200).json({
       success: true,
-      message: "Exercise deleted successfully.",
+      ...result,
     });
   } catch (error) {
     next(error);
   }
 };
 
-export const getAllExercises = async (req, res, next) => {
-  try {
-    const exercises = await Exercise.find().sort({ name: 1 });
-
-    return res.status(200).json({
-      success: true,
-      count: exercises.length,
-      exercises,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const getExerciseBySlug = async (req, res, next) => {
+export const getExerciseBySlug = (req, res, next) => {
   try {
     const { slug } = req.params;
 
-    const exercise = await Exercise.findOne({ slug });
+    const exercise = ExerciseService.getExerciseBySlug(slug);
 
     if (!exercise) throw new AppError("Exercise not found.", 404);
 
-    res.status(200).json({
-      success: true,
-      exercise,
-    });
+    return res.status(200).json({ success: true, exercise });
   } catch (error) {
     next(error);
   }
 };
 
-export const searchExercise = async (req, res, next) => {
+export const getAvailableCategories = (req, res, next) => {
   try {
-    const { q } = req.query;
-
-    if (!q?.trim()) throw new AppError("Search query is required.", 400);
-
-    const exercises = await Exercise.find({
-      $or: [
-        { name: { $regex: q.trim(), $options: "i" } },
-        { muscleGroups: { $regex: q.trim(), $options: "i" } },
-        { equipment: { $regex: q.trim(), $options: "i" } },
-      ],
-    })
-      .sort({ name: 1 })
-      .limit(20);
-
+    const categories = ExerciseService.getAvailableCategories();
     return res.status(200).json({
       success: true,
-      count: exercises.length,
-      exercises,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-export const getExercisesByMuscleGroup = async (req, res, next) => {
-  try {
-    const { muscleGroup } = req.params;
-
-    if (!muscleGroups.includes(muscleGroup)) {
-      throw new AppError("Invalid muscle group.", 400);
-    }
-
-    const exercises = await Exercise.find({ muscleGroups: muscleGroup }).sort({
-      name: 1,
-    });
-
-    res.status(200).json({
-      success: true,
-      count: exercises.length,
-      exercises,
+      count: categories.length,
+      categories,
     });
   } catch (error) {
     next(error);
   }
 };
 
-export const getExercisesByCategory = async (req, res, next) => {
+export const getAvailableTargets = (req, res, next) => {
   try {
-    const { category } = req.params;
-
-    if (!categories.includes(category)) {
-      throw new AppError("Invalid category.", 400);
-    }
-
-    const exercises = await Exercise.find({ category })
-      .sort({ name: 1 })
-      .lean();
-
+    const targets = ExerciseService.getAvailableTargets();
     return res.status(200).json({
       success: true,
-      count: exercises.length,
-      exercises,
+      count: targets.length,
+      targets,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getAvailableEquipment = (req, res, next) => {
+  try {
+    const equipment = ExerciseService.getAvailableEquipment();
+    return res.status(200).json({
+      success: true,
+      count: equipment.length,
+      equipment,
     });
   } catch (error) {
     next(error);

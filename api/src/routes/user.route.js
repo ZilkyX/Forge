@@ -21,11 +21,11 @@ const router = Router();
 // GET    /:username/followers Get followers
 // GET    /:username/following Get following
 
+router.post("/sync", syncUser);
 router.get("/me", protectRoute, getMe);
-router.post("/sync", protectRoute, syncUser);
 router.patch("/me", protectRoute, updateUserInfo);
 router.patch("/me/avatar", protectRoute, updateUserProfileImage);
 router.get("/:username", protectRoute, getPublicProfile);
-router.post("/follow/:id", protectRoute, )
+router.post("/follow/:id", protectRoute);
 
 export default router;
