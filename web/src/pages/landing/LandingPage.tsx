@@ -12,8 +12,6 @@ const LandingPage = () => {
       <FeaturesSection />
       <HowItWorksSection />
       <Outcome />
-      
-      
     </main>
   );
 };

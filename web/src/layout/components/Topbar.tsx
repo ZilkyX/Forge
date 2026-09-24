@@ -1,5 +1,5 @@
 import { useClerk, useUser } from "@clerk/react";
-import { Bell, Search, Settings, LogOut, User, Flame } from "lucide-react";
+import { Bell, Settings, LogOut, User, Flame } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 import {
@@ -37,13 +37,6 @@ const Topbar = () => {
 
         {/* Right */}
         <div className="flex items-center gap-2">
-          {/* Search */}
-          <button className="hidden h-10 items-center gap-2 rounded-full border border-border/70 bg-card/60 px-4 text-sm text-muted-foreground transition hover:bg-accent md:flex">
-            <Search className="h-4 w-4" />
-            Search
-            <span className="rounded border px-1.5 py-0.5 text-xs">⌘K</span>
-          </button>
-
           <ThemeToggle />
           {/* Notifications */}
           <button className="relative flex h-10 w-10 items-center justify-center rounded-full border border-border/70 bg-card/60 transition hover:bg-accent">
