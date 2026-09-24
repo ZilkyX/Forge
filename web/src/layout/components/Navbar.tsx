@@ -3,6 +3,7 @@ import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/react";
 import ThemeToggle from "./ThemeToggle";
+import ShinyText from "@/components/reactbits/ShinyText";
 
 const NAV_LINKS = [
   { label: "Features", href: "#features" },
@@ -22,9 +23,19 @@ const Navbar = () => {
             <span className="font-bold text-primary-foreground">F</span>
           </div>
 
-          <span className="text-xl font-bold tracking-tight text-foreground transition group-hover:text-primary">
-            Forge
-          </span>
+          <ShinyText
+            className="text-xl font-bold tracking-tight"
+            text="FORGE"
+            speed={2}
+            delay={0}
+            color="var(--primary)"
+            shineColor="var(--foreground)"
+            spread={120}
+            direction="left"
+            yoyo={false}
+            pauseOnHover={true}
+            disabled={false}
+          />
         </Link>
 
         <div className="hidden items-center gap-8 md:flex">
