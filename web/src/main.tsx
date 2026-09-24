@@ -11,9 +11,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")!).render(
-  <ClerkProvider>
-    <BrowserRouter>
-      <StrictMode>
+  <StrictMode>
+    <ClerkProvider>
+      <BrowserRouter>
         <QueryClientProvider client={queryClient}>
           <ThemeProvider
             attribute="class"
@@ -26,7 +26,7 @@ createRoot(document.getElementById("root")!).render(
             </ThemePaletteProvider>
           </ThemeProvider>
         </QueryClientProvider>
-      </StrictMode>
-    </BrowserRouter>
-  </ClerkProvider>,
+      </BrowserRouter>
+    </ClerkProvider>
+  </StrictMode>,
 );
