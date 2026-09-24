@@ -10,17 +10,6 @@ import { protectRoute } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
-// TODO:
-// GET    /me                  Get current user's profile
-// POST   /sync                Create/sync Clerk user to MongoDB
-// PATCH  /me                  Update profile
-// PATCH  /me/avatar           Update profile image
-// GET    /:username           Public profile
-// POST   /follow/:id          Follow a user
-// DELETE /follow/:id          Unfollow a user
-// GET    /:username/followers Get followers
-// GET    /:username/following Get following
-
 router.post("/sync", syncUser);
 router.get("/me", protectRoute, getMe);
 router.patch("/me", protectRoute, updateUserInfo);

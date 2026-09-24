@@ -29,6 +29,7 @@ export const getAllExercises = (req, res, next) => {
       sort,
     });
 
+
     return res.status(200).json({
       success: true,
       ...result,
