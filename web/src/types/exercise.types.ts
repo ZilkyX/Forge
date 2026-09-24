@@ -28,9 +28,20 @@ export interface ExerciseData {
   gif_url: string;
   media_id: string;
 
-  created_at: string;
   attribution: string;
 }
+
+export type ExerciseLanguage =
+  | "en"
+  | "it"
+  | "tr"
+  | "es"
+  | "ru"
+  | "zh"
+  | "hi"
+  | "pl"
+  | "ko"
+  | "fr";
 
 export interface ExerciseInstructions {
   en: string;

@@ -3,10 +3,12 @@ import LandingLayout from "./layout/LandingLayout";
 import LandingPage from "./pages/landing/LandingPage";
 import AppLayout from "./layout/AppLayout";
 import Dashboard from "./pages/dashboard/Dashboard";
-import PublicExerciseLibrary from "./pages/exercise/PublicExerciseLibrary";
-import DashboardExerciseLibrary from "./pages/exercise/DashboardExerciseLibrary";
+import PublicExerciseLibrary from "./pages/exercise-public/PublicExerciseLibrary";
+import DashboardExerciseLibrary from "./pages/exercise-dashboard/DashboardExerciseLibrary";
+import { useSyncUser } from "./hooks/auth.hook";
 
 const App = () => {
+  useSyncUser();
   return (
     <Routes>
       <Route element={<LandingLayout />}>

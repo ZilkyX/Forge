@@ -1,10 +1,10 @@
-import { clerkClient } from "@clerk/express";
+import { clerkClient, getAuth } from "@clerk/express";
 import User from "../models/user.model.js";
 import { AppError } from "../utils/app-error.js";
 
 export const syncUser = async (req, res, next) => {
   try {
-    const { userId } = req.auth;
+    const { userId } = getAuth(req);
 
     let user = await User.findOne({ clerkId: userId });
 
