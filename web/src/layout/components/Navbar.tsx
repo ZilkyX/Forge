@@ -19,10 +19,9 @@ const Navbar = () => {
     <header className="sticky top-0 z-50 border-b border-border/50 bg-background/70 backdrop-blur-xl">
       <nav className="mx-auto flex h-18 max-w-7xl items-center justify-between px-6 lg:px-8">
         <Link to="/" className="group flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary shadow-lg shadow-primary/20 transition group-hover:scale-105">
-            <span className="font-bold text-primary-foreground">F</span>
+          <div className="flex size-8">
+            <img src="/logo/ForgeLogo.png" alt="Forge Logo" />
           </div>
-
           <ShinyText
             className="text-xl font-bold tracking-tight"
             text="FORGE"

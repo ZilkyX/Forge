@@ -1,5 +1,12 @@
 import { useClerk } from "@clerk/react";
-import { Home, Dumbbell, BookOpen, BarChart3, User } from "lucide-react";
+import {
+  Home,
+  Dumbbell,
+  BookOpen,
+  BarChart3,
+  User,
+  UserGroup,
+} from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 const navItems = [
@@ -7,6 +14,7 @@ const navItems = [
   { label: "Workouts", icon: Dumbbell, to: "/app/workouts" },
   { label: "Exercise Library", icon: BookOpen, to: "/app/exercises" },
   { label: "Progress", icon: BarChart3, to: "/app/progress" },
+  { label: "Community", icon: UserGroup, to: "/app/community" },
   { label: "Profile", icon: User, to: "/app/profile" },
 ];
 
@@ -16,8 +24,8 @@ const Sidebar = () => {
     <aside className="flex h-screen w-72 flex-col border-r border-border bg-card">
       <div className="border-b border-border px-6 py-6">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary">
-            <Dumbbell className="h-5 w-5 text-primary-foreground" />
+          <div className="flex h-10 w-10">
+            <img src="/logo/ForgeLogo.png" alt="Forge Logo" />
           </div>
 
           <div>
