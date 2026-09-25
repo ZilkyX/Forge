@@ -1,10 +1,11 @@
 import { Outlet } from "react-router-dom";
 import Topbar from "./components/Topbar";
 import Sidebar from "./components/Sidebar";
+import ChatBubble from "./components/ChatBubble";
 
 const AppLayout = () => {
   return (
-    <div className="flex h-screen bg-zinc-950 text-white">
+    <div className="flex h-screen">
       <Sidebar />
 
       <div className="flex min-w-0 flex-1 flex-col">
@@ -14,6 +15,8 @@ const AppLayout = () => {
           <Outlet />
         </main>
       </div>
+
+      <ChatBubble />
     </div>
   );
 };

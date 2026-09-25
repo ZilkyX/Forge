@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/react";
-import ThemeToggle from "./ThemeToggle";
+import ThemeToggle from "../../components/common/ThemeToggle";
 import ShinyText from "@/components/reactbits/ShinyText";
 
 const NAV_LINKS = [

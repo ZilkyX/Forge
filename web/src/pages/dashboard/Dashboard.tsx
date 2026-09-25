@@ -27,8 +27,7 @@ const week = [
 const Dashboard = () => {
   return (
     <div className="space-y-8">
-      {/* Hero */}
-      <section className="overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-primary/15 via-background to-background p-8">
+      <section className="overflow-hidden rounded-3xl border border-border bg-linear-to-br from-primary/15 via-background to-background p-8">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-xl">
             <p className="text-sm font-semibold uppercase tracking-[0.25em] text-primary">
