@@ -9,7 +9,6 @@ import {
   LogOut,
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import ShinyText from "@/components/reactbits/ShinyText";
 
 const navItems = [
@@ -21,9 +20,10 @@ const navItems = [
   { label: "Profile", icon: User, to: "/app/profile" },
 ];
 
+// TODO: Fix sidebar
+
 const Sidebar = () => {
   const { signOut } = useClerk();
-
   return (
     <>
       <aside className="hidden h-screen w-72 shrink-0 border-r border-border/50 bg-card/80 backdrop-blur-xl lg:flex lg:flex-col">
@@ -105,7 +105,7 @@ const Sidebar = () => {
                 to={item.to}
                 end={item.to === "/app"}
                 className={({ isActive }) =>
-                  `flex flex-col items-center gap-1 rounded-xl px-3 py-2 transition-all ${
+                  `flex flex-col items-center gap-1 rounded-xl px-2 py-2 transition-all ${
                     isActive
                       ? "bg-primary/15 text-primary"
                       : "text-muted-foreground"

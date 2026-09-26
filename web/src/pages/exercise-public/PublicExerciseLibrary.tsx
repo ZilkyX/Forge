@@ -21,7 +21,6 @@ const PublicExerciseLibrary = () => {
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(search);
