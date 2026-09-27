@@ -14,20 +14,21 @@ const Topbar = () => {
     hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
 
   return (
-    <header className="sticky top-0 z-40 px-4 mt-4 lg:px-6">
-      <div className="flex h-16 items-center justify-between rounded-2xl border border-border/70 bg-background/75 px-5 shadow-sm backdrop-blur-xl">
-        <div className="space-y-0.5">
-          <h1 className="text-lg font-semibold tracking-tight">
-            {greeting}, {user?.firstName || "Athlete"}
+    <header className="sticky top-0 z-40 mt-3 px-3 sm:mt-4 sm:px-4 lg:px-6">
+      <div className="flex h-14 items-center justify-between rounded-2xl border border-border/70 bg-background/75 px-3 shadow-sm backdrop-blur-xl sm:h-16 sm:px-5">
+        <div className="min-w-0">
+          <h1 className="truncate text-base font-semibold tracking-tight sm:text-lg">
+            <span className="max-[380px]:hidden">{greeting}, </span>
+            {user?.firstName || "Athlete"}
           </h1>
 
-          <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+          <div className="mt-0.5 flex items-center gap-1.5 text-xs text-muted-foreground sm:text-sm max-[420px]:hidden">
             <Flame className="h-3.5 w-3.5 text-primary" />
             <span>12-day streak</span>
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="ml-3 flex shrink-0 items-center gap-1 sm:gap-2">
           <ThemeToggle />
           <NotificationDropMenu />
           <UserProfileToggle />
