@@ -20,7 +20,6 @@ const navItems = [
   { label: "Profile", icon: User, to: "/app/profile" },
 ];
 
-// TODO: Fix sidebar
 
 const Sidebar = () => {
   const { signOut } = useClerk();
@@ -94,8 +93,8 @@ const Sidebar = () => {
       </aside>
 
       {/* Mobile Bottom Navigation */}
-      <nav className="fixed inset-x-4 bottom-4 z-50 lg:hidden">
-        <div className="flex items-center justify-around rounded-2xl border border-border/60 bg-background/90 p-2 shadow-2xl backdrop-blur-xl">
+      <nav className="fixed inset-x-2 bottom-2 z-50 lg:hidden">
+        <div className="flex items-center rounded-2xl border border-border/60 bg-background/90 p-1 shadow-2xl backdrop-blur-xl pb-[max(0.25rem,env(safe-area-inset-bottom))]">
           {navItems.map((item) => {
             const Icon = item.icon;
 
@@ -105,15 +104,18 @@ const Sidebar = () => {
                 to={item.to}
                 end={item.to === "/app"}
                 className={({ isActive }) =>
-                  `flex flex-col items-center gap-1 rounded-xl px-2 py-2 transition-all ${
+                  `flex min-w-0 flex-1 flex-col items-center justify-center rounded-xl py-2 transition-all ${
                     isActive
                       ? "bg-primary/15 text-primary"
-                      : "text-muted-foreground"
+                      : "text-muted-foreground hover:text-foreground"
                   }`
                 }
               >
-                <Icon className="h-5 w-5" />
-                <span className="text-[10px] font-medium">{item.label}</span>
+                <Icon className="h-5 w-5 shrink-0" />
+
+                <span className="mt-1 text-[10px] font-medium leading-none max-[380px]:hidden">
+                  {item.label}
+                </span>
               </NavLink>
             );
           })}
