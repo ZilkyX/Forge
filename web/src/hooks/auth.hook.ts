@@ -13,7 +13,7 @@ export const useSyncUser = () => {
 
       console.log("Token:", token);
 
-      const res = await axiosInstance.post(
+      await axiosInstance.post(
         "/user/sync",
         {},
         {
@@ -22,8 +22,6 @@ export const useSyncUser = () => {
           },
         },
       );
-
-      console.log("Sync response:", res.data);
     };
 
     sync().catch(console.error);

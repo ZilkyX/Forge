@@ -130,7 +130,3 @@ export const isValidEquipment = (equipment) =>
 export const isValidTarget = (target) => targetSet.has(target.toLowerCase());
 
 export const getAvailableCategories = () => [...categorySet].sort();
-
-export const getAvailableEquipment = () => [...equipmentSet].sort();
-
-export const getAvailableTargets = () => [...targetSet].sort();
