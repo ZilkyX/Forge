@@ -10,3 +10,4 @@ export const getAvailableCategories = async () => {
   const { data } = await axiosInstance.get("/exercise/categories");
   return data;
 };
+

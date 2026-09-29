@@ -14,7 +14,7 @@ const Topbar = () => {
     hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
 
   return (
-    <header className="sticky top-0 z-40 mt-3 px-3 sm:mt-4 sm:px-4 lg:px-6">
+    <header className="z-40 px-3 pt-3 sm:px-4 sm:pt-4 lg:px-6">
       <div className="flex h-14 items-center justify-between rounded-2xl border border-border/70 bg-background/75 px-3 shadow-sm backdrop-blur-xl sm:h-16 sm:px-5">
         <div className="min-w-0">
           <h1 className="truncate text-base font-semibold tracking-tight sm:text-lg">

@@ -1,8 +1,6 @@
 export interface ExerciseParams {
   q?: string;
   category?: string;
-  equipment?: string;
-  target?: string;
   page?: number;
   limit?: number;
   sort?: string;
